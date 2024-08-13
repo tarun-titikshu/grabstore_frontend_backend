@@ -1,0 +1,23 @@
+<!-- cart.component.html -->
+<app-header></app-header>
+
+<div class="main-container" style="min-height: 100vh;">
+  <div class="cart-container">
+    <h2>Shopping Cart</h2>
+    <div *ngIf="product.length > 0; else emptyCart">
+      <div *ngFor="let p of product" class="cart-item">
+        <p>{{ p.pname }}</p>
+        <p>Price: {{ p.price }}</p>
+        <p>Quantity: {{ quantity[p.id] }}</p>
+        <p>Total: {{ p.price * quantity[p.id] }}</p>
+        <button (click)="updateQuantity(p.id)">Add More</button>
+        <button (click)="decreaseQuantity(p.id)">Decrease Quantity</button>
+        <button (click)="removeProductFromCart(p.id)">Remove</button>
+      </div>
+    </div>
+    <ng-template #emptyCart>
+      <p>Your cart is empty.</p>
+    </ng-template>
+  </div>
+</div>
+<app-footer></app-footer>

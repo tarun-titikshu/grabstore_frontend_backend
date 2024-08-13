@@ -1,0 +1,41 @@
+package com.auth.service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.auth.dto.SignupRequest;
+import com.auth.dto.UserDTO;
+import com.auth.model.User;
+import com.auth.repository.UserRepository;
+
+@Service
+public class AuthService {
+	
+	@Autowired
+	public UserRepository userrepo;
+	
+	@Autowired
+	public PasswordEncoder passencoder;
+	
+	public UserDTO registerUser(SignupRequest signupRequest) {
+        Optional<User> existingUser = userrepo.findByEmail(signupRequest.getEmail());
+        if(existingUser.isPresent()) {
+            throw new RuntimeException("Email is already taken!");
+        }
+        
+        User user = new User();
+        user.setEmail(signupRequest.getEmail());
+        user.setPassword(PasswordEncoder.encode(signupRequest.getPassword()));
+        
+		return null;
+
+	}
+	
+	
+	
+	
+	
+}

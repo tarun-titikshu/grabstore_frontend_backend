@@ -1,0 +1,85 @@
+<!-- Best Discount Section -->
+ <div class="main-cointainer" style="background: linear-gradient(270deg, #fc5c7d, #0b1f87);">
+  <app-header></app-header>
+<div class="best-discount-section">
+  <h3>Find Store with Best Discount</h3>
+  <div>
+    <label for="bestDiscountProductName">Product Name:</label>
+    <input class="search-bar" type="text" id="bestDiscountProductName" #bestDiscountProductName>
+    <button class="search-btn" (click)="showBestDiscount(bestDiscountProductName.value)">Show Best Discount Store</button>
+  </div>
+  <div *ngIf="bestDiscountStore" class="best-discount">
+    <h4>Store with Best Discount:</h4>
+    <div class="store-card">
+      <div class="store-card-header">
+        <div class="store-card-img">
+          <img src="" alt="">
+        </div>
+        <div class="store-info">
+          <h3>{{ bestDiscountStore.storename }}</h3>
+          <p>GST ID: {{ bestDiscountStore.gstId }}</p>
+          
+        </div>
+      </div>
+      <div class="store-card-footer">
+        <button (click)="showProducts(bestDiscountStore.gstId)">Show Products</button>
+      </div>
+      <div class="product-list">
+        <ul>
+          <li *ngFor="let product of bestDiscountStore.products" class="product-card">
+            <div class="product-card-header">
+              <div class="product-info">
+                <h4>{{ product.pname }}</h4>
+                <p>Price: {{ product.price | currency }}</p>
+                <p>Unit: {{ product.unit }}</p>
+                <p>Discount: {{ product.discount }}%</p>
+             
+              </div>
+              <button (click)="selectProduct(product)">Select</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Store List Section -->
+<div class="container">
+  <h2 >Store List</h2>
+  <!-- <div class="search-bar">
+    <label for="searchProduct">Search Product:</label>
+    <input type="text" id="searchProduct" [(ngModel)]="searchTerm" (input)="searchProduct()">
+  </div> -->
+  <div class="stores-list">
+    <div *ngFor="let store of filteredStores" class="store-card">
+      <div class="store-card-header">
+        <div class="store-info">
+          <h3>{{ store.storename }}</h3>
+          <p>GST ID: {{ store.gstId }}</p>
+          <img [src] = "getRandomImage()" alt="" style="border-bottom: 1px solid white; border-right: 1px solid white;    width: 200px; height: 150px;"/>
+        </div>
+      </div>
+      <div class="store-card-footer">
+        <button (click)="showProducts(store.gstId)">Show Products</button>
+      </div>
+      <div *ngIf="store.gstId === selectedStore.gstId" class="product-list">
+        <div *ngFor="let product of selectedStoreProducts" class="product-card" style="background-color: #373737;">
+          <div class="product-card-header">
+            <div class="product-info">
+              <h4>{{ product.pname }}</h4>
+              <p>Price: {{ product.price | currency }}</p>
+              <p>Unit: {{ product.unit }}</p>
+              <p>Discount: {{ product.discount }}%</p>
+                 <!-- <img [src]="getRandomImage()" alt=""/> -->
+            </div>
+            <button (click)="selectProduct(product)">Select</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+ </div>

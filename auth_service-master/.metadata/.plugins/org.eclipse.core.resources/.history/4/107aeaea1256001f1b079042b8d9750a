@@ -1,0 +1,31 @@
+package com.auth.controller;
+
+import java.util.Collections;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import com.auth.service.AuthService;
+//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfiguration{
+	
+	@Autowired
+    private AuthService authService;
+	
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		
+		auth.userDetailsService(email -> new org.springframework.security.core.userdetails.User(
+				authService.loadUserByUsername(email).getEmail(), 
+				authService.loadUserByUsername(email).getPassword(), 
+				Collections.singleton(new SimpleGrantedAuthority("ROLE_" + authService.loadUserByUsername(email).getRole().name()))
+				)).passwordEncoder(passwordEncoder());
+	}
+
+}

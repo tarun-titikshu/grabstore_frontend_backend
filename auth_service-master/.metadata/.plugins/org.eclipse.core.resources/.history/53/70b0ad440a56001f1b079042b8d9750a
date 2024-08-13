@@ -1,0 +1,13 @@
+package com.auth.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.auth.repository.UserRepository;
+
+
+public interface AuthService {
+	public UserRepository userrepo;
+	public PasswordEncoder passencoder;
+
+}

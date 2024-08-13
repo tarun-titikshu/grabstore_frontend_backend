@@ -1,0 +1,47 @@
+<div class="registration-wrapper">
+  <div class="logo-section">
+    <img src="https://i.imgur.com/sW2mn3O.png" alt="Logo" class="logo" />
+  </div>
+  <div class="form-section">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="registration-form">
+      <h2>Register</h2>
+
+      <div class="form-group">
+        <label for="username">Username/Email <span style="color: red;">*</span></label>
+        <input [ngStyle]="{'border-color': isBlank ? 'red' : ''}" type="text" id="username" placeholder="Email. . . " name="username" formControlName="email" required />
+      </div>
+      <div *ngIf="myForm.controls['email'].invalid && myForm.controls['email'].touched" class="warning-msg">
+        <small *ngIf="myForm.controls['email'].dirty">*Enter a valid email </small>
+        <small>*Email required</small>
+      </div>
+ 
+      <div class="form-group"> 
+        <label for="password">Password <span style="color: red;">*</span></label>
+        <input type="password" id="password" name="password" formControlName="password" required />
+      </div>
+      <div *ngIf="myForm.controls['password'].invalid && myForm.controls['password'].touched" class="warning-msg">
+        <small>*Enter the password</small>
+        <!-- <small *ngIf="myForm.controls['password'].touched">*Enter a password</small> -->
+      </div>
+
+      <div class="form-group">
+        <label for="role">Role <span style="color: red;">*</span></label>
+        <select id="role" name="role" formControlName="role" required>
+          <option value="CUSTOMER">Customer</option>
+          <option value="STORE_MANAGER">Store Manager</option>
+        </select>
+      </div>
+      <div *ngIf="myForm.controls['role'].valid && myForm.controls['role'].pristine" class="warning-msg">
+        <small>*It's Required</small>
+      </div>
+
+      <button type="submit" class="btn-primary">Register</button>
+
+      <div class="login-link">
+        <a href="/login">Already have an account? Log in</a>
+      </div>
+      
+    </form>
+    <small class="required-line"><span style="color: red;">*</span> fields are required</small>
+  </div>
+</div>

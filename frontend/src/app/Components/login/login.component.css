@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+.main-container{
+  height: 100vh;
+}
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  
+ 
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin-bottom: 50px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.251), rgba(255, 255, 255, 0.041));
+}
+
+.logo-head img{
+  max-width:400px ;
+}
+
+.login-form {
+  padding: 40px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.251), rgba(255, 255, 255, 0.041));
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+}
+
+.required-line{
+  position: absolute;
+  font-size: x-small;
+  color: #555;
+  bottom: 10px;
+  left: 15px;
+}
+
+.login-form h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+ 
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.warning-msg{
+  transition: 0.2s ease-in;
+  color: red;
+  margin-bottom: 5px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  /* background-color: #007bff; */ background: linear-gradient(270deg, #fc5c7d, #0b1f87);
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #015ec2;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .login-form {
+    padding: 20px;
+  }
+
+  .btn-primary {
+    font-size: 14px;
+  }
+}
