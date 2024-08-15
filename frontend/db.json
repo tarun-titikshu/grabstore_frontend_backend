@@ -20,6 +20,20 @@
       "price": 300,
       "unit": 4,
       "discount": 20
+    },
+    {
+      "id": 5,
+      "pname": "cookies",
+      "price": 300,
+      "unit": 4,
+      "discount": 20
+    },
+    {
+      "id": 11,
+      "pname": "milk",
+      "price": 20,
+      "unit": 10,
+      "discount": 20
     }
   ]
 }

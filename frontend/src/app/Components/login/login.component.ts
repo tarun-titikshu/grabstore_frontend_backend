@@ -26,17 +26,11 @@ export class LoginComponent {
     })
   }
 
-  
-  // loginData = {
-  //   email: '',
-  //   password: '',
-  //   role:''
-  // };
-
   async onSubmit() {
   this.isBlank = (this.myForm.get('email')?.value.trim() === '');
    if (this.myForm.valid) {
     try {
+      
       const response = await this.http.post('http://localhost:9093/login',this.myForm.value,{responseType:'text'}).toPromise();
       console.log('Login Data:', this.myForm);
       this.router.navigate(['/home']);
@@ -46,6 +40,7 @@ export class LoginComponent {
     
    }
    else {
+    console.log("form is invalid")
     
    }
   
