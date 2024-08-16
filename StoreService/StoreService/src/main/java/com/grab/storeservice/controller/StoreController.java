@@ -28,22 +28,45 @@ public class StoreController {
 
 
     //controller to add store
+//    @PostMapping("/addstore")
+//    public ResponseEntity<String> addStore(@RequestBody Store store) {
+//        try {
+//            storeser.addStore1(store);
+//            return new ResponseEntity<>("Store added successfully", HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>("Error adding store: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+    
     @PostMapping("addstore")
-    public ResponseEntity<?> addstore(@RequestBody Store s) throws AllreadyExistingStoreException {
+    public ResponseEntity<?> addstore(@RequestBody Store s) {
         try {
-            Store add = storeser.addStore(s,s.getGstId());
-            return new ResponseEntity<>(add, HttpStatus.CREATED);
-        }
-        catch(AllreadyExistingStoreException ae){
-            throw new AllreadyExistingStoreException("The store is already present");
-        }
-        catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+            // Assuming that the Store object contains the gstId
+            Store addedStore = storeser.addStore(s, s.getGstId());
+            return new ResponseEntity<>(addedStore, HttpStatus.CREATED);
+        } catch (AllreadyExistingStoreException ae) {
+            // Handle case where the store already exists
+            return new ResponseEntity<>(ae.getMessage(), HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            // Handle other exceptions
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-
-
+//    @GetMapping("/distance/{storeName}")
+//    public ResponseEntity<Double> getDistanceByStoreName(@PathVariable String storeName) {
+//        try {
+//            double distance = storeser.getDistanceByStoreName(storeName);
+//            return ResponseEntity.ok(distance);
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//        }
+//    }
+    
+    @GetMapping("/distance/{storeName}/{gstId}")
+    public double getDistanceByStoreName(@PathVariable String storeName, @PathVariable int gstId) {
+        return storeser.getDistanceByStoreName1(storeName, gstId);
+    }
 
     //controller to delete any store
     @DeleteMapping("deletestore/{GstId}")
@@ -177,20 +200,42 @@ public class StoreController {
 
 //
 // show best discout of a product present in many stores
+//    @GetMapping("showbestdiscount/{pname}")
+//    public ResponseEntity<?> showBestDiscount(@PathVariable String pname) {
+//        try {
+//            Store store = storeser.showBestDiscount(pname);
+//            return new ResponseEntity<>(store, HttpStatus.OK);
+//        } catch (ProductNotFoundException e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+    
     @GetMapping("showbestdiscount/{pname}")
     public ResponseEntity<?> showBestDiscount(@PathVariable String pname) {
         try {
-            Store store = storeser.showBestDiscount(pname);
-            return new ResponseEntity<>(store, HttpStatus.OK);
+            List<Store> stores = storeser.showBestDiscount(pname);
+            return new ResponseEntity<>(stores, HttpStatus.OK);
         } catch (ProductNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping("best-discount-distance/{pname}")
+    public List<Store> showBestDiscountDist(@PathVariable String pname) throws ProductNotFoundException {
+        return storeser.showBestDiscountDist(pname);
+    }
 
 
 
+    @GetMapping("/suggestions")
+    public ResponseEntity<List<String>> getProductSuggestions(@RequestParam String query) {
+        List<String> suggestions = storeser.getProductSuggestions(query);
+        return ResponseEntity.ok(suggestions);
+    }
 
 
 

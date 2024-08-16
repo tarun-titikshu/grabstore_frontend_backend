@@ -21,4 +21,8 @@ public interface StoreRepo extends JpaRepository<Store,Integer> {
     @Transactional
     @Query("DELETE FROM Store s WHERE s.gstId = :gstId")
     public void deleteByGstId(int gstId);
+    
+    Store findByStorename(String storename);
+
+	public Store findByStorenameAndGstId(String storeName, int gstId);
 }

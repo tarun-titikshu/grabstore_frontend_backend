@@ -19,24 +19,30 @@ import com.grab.storeservice.exception.StoreNotFoundException;
 
 import com.grab.storeservice.model.Product;
 import com.grab.storeservice.model.Store;
+import com.grab.storeservice.model.StoreDistance;
 import com.grab.storeservice.repo.ProductRepo;
+import com.grab.storeservice.repo.StoreDistanceRepository;
 import com.grab.storeservice.repo.StoreRepo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StoreService implements IService {
-	
+    
     @Autowired
     private StoreRepo srepo;
+    
     
     @Autowired
     private ProductRepo productRepo;
 
     @Autowired
     private RestTemplate restTemplate;
-//    private final String CART_SERVICE_URL = "http://localhost:8091/api/cart/add";
 
     @Override
     public Store addStore(Store s, int gstId) throws AllreadyExistingStoreException {
@@ -44,9 +50,88 @@ public class StoreService implements IService {
         if (opt.isPresent()) {
             throw new AllreadyExistingStoreException("Store already present");
         }
-        Store addstore = srepo.save(s);
-        return addstore;
+        return srepo.save(s);
     }
+
+    @Autowired
+    private StoreDistanceRepository storeDistanceRepository;
+
+//    public void addStore1(Store store) {
+//        // Retrieve the distance for the given address
+//        StoreDistance storeDistance = storeDistanceRepository.findByStoreAddress(store.getStoreAddress());
+//        
+//        if (storeDistance != null) {
+//            double distance = storeDistance.getDistance();
+//            System.out.println("Distance from Baner: " + distance);
+//            // Optionally, you can add this distance to the Store entity if required
+//        } else {
+//            System.out.println("Address not found in distance table.");
+//        }
+//
+//        // Save the store
+//        srepo.save(store);
+//    }
+    
+    public void addStore1(Store store, int gstId) throws AllreadyExistingStoreException {
+        // Check if a store with the given gstId already exists
+        Optional<Store> existingStore = srepo.findByGstId(gstId);
+        if (existingStore.isPresent()) {
+            throw new AllreadyExistingStoreException("Store already present with GST ID: " + gstId);
+        }
+
+        // Retrieve the distance for the given address
+        StoreDistance storeDistance = storeDistanceRepository.findByStoreAddress(store.getStoreAddress());
+
+        if (storeDistance != null) {
+            double distance = storeDistance.getDistance();
+            System.out.println("Distance from Baner: " + distance);
+            // Optionally, handle the distance as needed, but do not set it on the Store entity
+        } else {
+            System.out.println("Address not found in distance table.");
+            // Optionally handle the case where the address is not found
+        }
+
+        // Save the store
+        srepo.save(store);
+    }
+    
+    
+//    public double getDistanceByStoreName(String storeName) {
+//        // Find the store by name
+//        Store store = srepo.findByStorename(storeName);
+//
+//        if (store != null) {
+//            // Retrieve the distance for the store's address
+//            StoreDistance storeDistance = storeDistanceRepository.findByStoreAddress(store.getStoreAddress());
+//
+//            if (storeDistance != null) {
+//                return storeDistance.getDistance();
+//            } else {
+//                throw new RuntimeException("Address not found in distance table.");
+//            }
+//        } else {
+//            throw new RuntimeException("Store not found.");
+//        }
+//    }
+    
+    public double getDistanceByStoreName1(String storeName, int gstId) {
+        // Find the store by name and GST ID
+        Store store = srepo.findByStorenameAndGstId(storeName, gstId);
+
+        if (store != null) {
+            // Retrieve the distance for the store's address
+            StoreDistance storeDistance = storeDistanceRepository.findByStoreAddress(store.getStoreAddress());
+
+            if (storeDistance != null) {
+                return storeDistance.getDistance();
+            } else {
+                throw new RuntimeException("Address not found in distance table.");
+            }
+        } else {
+            throw new RuntimeException("Store not found with the provided GST ID.");
+        }
+    }
+
 
     @Override
     public List<Store> getAllStores() {
@@ -54,11 +139,9 @@ public class StoreService implements IService {
     }
 
     @Override
-    
     public boolean deleteStore(int gstId) throws StoreNotFoundException {
         Optional<Store> opt = srepo.findByGstId(gstId);
         if (opt.isPresent()) {
-        	
             srepo.deleteByGstId(gstId);
             return true;
         } else {
@@ -68,61 +151,39 @@ public class StoreService implements IService {
 
     @Override
     public boolean addProductByGstId(Product p, int gstId) throws StoreNotFoundException, ProductAlreadyExists {
-        Store ss;
-        boolean status = false;
-        if (srepo.findByGstId(gstId).isPresent()) {
-            ss = srepo.findByGstId(gstId).get();
+        Store store = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("No store found"));
 
-            List<Product> ss1 = ss.getProducts();
-            if (ss1.size() == 0) {
-                ss1.add(p);
-                ss.setProducts(ss1);
-                srepo.save(ss);
-                status = true;
-                return true;
-            } else {
-                for (Product x : ss1) {
-                    if (x.getPname().equals(p.getPname())) {
-                        status = true;
-                    }
-                }
-                if (status) {
-                    throw new ProductAlreadyExists("Same product already exists, you can't add");
-                } else {
-                    ss1.add(p);
-                    ss.setProducts(ss1);
-                    srepo.save(ss);
-                    return true;
-                }
-            }
+        List<Product> products = store.getProducts();
+        boolean productExists = products.stream().anyMatch(prod -> prod.getPname().equals(p.getPname()));
+
+        if (productExists) {
+            throw new ProductAlreadyExists("Same product already exists, you can't add");
         } else {
-            throw new StoreNotFoundException("No store found");
+            products.add(p);
+            store.setProducts(products);
+            srepo.save(store);
+            return true;
         }
     }
 
     @Override
     public Store updateStore(int gstId, Store s) throws StoreNotFoundException {
-        Optional<Store> existingStore = srepo.findByGstId(gstId);
-        if (existingStore.isPresent()) {
-            Store ex1 = existingStore.get();
-            ex1.setStorename(s.getStorename());
-            ex1.setProducts(s.getProducts());
-            srepo.save(ex1);
-            return ex1;
-        } else {
-            throw new StoreNotFoundException("The store does not exist");
-        }
+        Store existingStore = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("The store does not exist"));
+        existingStore.setStorename(s.getStorename());
+        existingStore.setProducts(s.getProducts());
+        return srepo.save(existingStore);
     }
-    
     
     @Override
     public boolean deleteProduct(int gstId, String pname) throws StoreNotFoundException, ProductNotFound {
-        Store existingStore = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("No store found"));
-        List<Product> products = existingStore.getProducts();
-        boolean exist = products.removeIf(p -> p.getPname().equals(pname));
-        if (exist) {
-            existingStore.setProducts(products);
-            srepo.save(existingStore);
+        Store store = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("No store found"));
+        List<Product> products = store.getProducts();
+        
+        boolean productRemoved = products.removeIf(p -> p.getPname().equals(pname));
+        
+        if (productRemoved) {
+            store.setProducts(products);
+            srepo.save(store);
             return true;
         } else {
             throw new ProductNotFound("No product found");
@@ -131,46 +192,57 @@ public class StoreService implements IService {
 
     @Override
     public Store updateProduct(int gstId, String pname, Product p) throws ProductNotFound, StoreNotFoundException {
-        Store existingStore = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("Store not found"));
-        List<Product> products = existingStore.getProducts();
+        Store store = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("Store not found"));
+        List<Product> products = store.getProducts();
         
-        // Check if the product exists and remove it
-        boolean exist = products.removeIf(prod -> pname.equalsIgnoreCase(prod.getPname()));
+        boolean productExists = products.removeIf(prod -> pname.equalsIgnoreCase(prod.getPname()));
         
-        if (exist) {
+        if (productExists) {
             products.add(p);
-            existingStore.setProducts(products);
-            srepo.save(existingStore);
-            return existingStore;
+            store.setProducts(products);
+            return srepo.save(store);
         } else {
             throw new ProductNotFound("No such product found");
         }
     }
 
-
     @Override
     public List<Product> showProducts(int gstId) throws StoreNotFoundException {
-        Store existingStore = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("The store gstId does not exist"));
-        return existingStore.getProducts();
+        Store store = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("The store gstId does not exist"));
+        return store.getProducts();
     }
 
     @Override
-    public Store showBestDiscount(String pname) throws ProductNotFoundException {
+    public List<Store> showBestDiscount(String pname) throws ProductNotFoundException {
         double bestDiscount = 0.0;
-        Store returnStore = null;  // Initialize as null to handle cases where no store is found
-        boolean productFound = false;  // Flag to check if the product is found
+        List<Store> returnStores = new ArrayList<>();
+        boolean productFound = false;
 
         List<Store> existingStores = srepo.findAll();
 
-        for (Store s : existingStores) {
-            List<Product> products = s.getProducts();
-            for (Product p : products) {
-                // Check if p.getPname() is not null before comparing
-                if (p.getPname() != null && p.getPname().equalsIgnoreCase(pname)) {
+        for (Store store : existingStores) {
+            List<Product> products = store.getProducts();
+            for (Product product : products) {
+                if (product.getPname() != null && product.getPname().toLowerCase().contains(pname.toLowerCase())) {
                     productFound = true;
-                    if (p.getDiscount() > bestDiscount) {
-                        bestDiscount = p.getDiscount();
-                        returnStore = s;
+                    if (product.getDiscount() > bestDiscount) {
+                        bestDiscount = product.getDiscount();
+                        returnStores.clear();
+                        Store storeWithBestDiscount = new Store();
+                        storeWithBestDiscount.setGstId(store.getGstId());
+                        storeWithBestDiscount.setStorename(store.getStorename());
+                        storeWithBestDiscount.setProducts(Collections.singletonList(product));
+                        returnStores.add(storeWithBestDiscount);
+                    } else if (product.getDiscount() == bestDiscount) {
+                        boolean storeAlreadyAdded = returnStores.stream()
+                            .anyMatch(s -> s.getGstId() == store.getGstId());
+                        if (!storeAlreadyAdded) {
+                            Store storeWithBestDiscount = new Store();
+                            storeWithBestDiscount.setGstId(store.getGstId());
+                            storeWithBestDiscount.setStorename(store.getStorename());
+                            storeWithBestDiscount.setProducts(Collections.singletonList(product));
+                            returnStores.add(storeWithBestDiscount);
+                        }
                     }
                 }
             }
@@ -180,135 +252,127 @@ public class StoreService implements IService {
             throw new ProductNotFoundException("Product with name '" + pname + "' not found");
         }
 
-        return returnStore;
+        return returnStores;
     }
 
-
-
-
-//    @Override
-//    public void addProductToCart(int gstId, String pname, double qty) throws StoreNotFoundException, ProductNotFound, QuantityLessInStore {
-//        Store existingStore = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("Store not found"));
-//        List<Product> products = existingStore.getProducts();
-//        Body body = new Body();
-//        body.setGstId(gstId);
-//        body.setStorename(existingStore.getStorename());
-//        Product cartProduct = new Product();
-//        boolean st = false;
-//
-//        for (Product currentProduct : products) {
-//            if (currentProduct.getPname().equals(pname) && currentProduct.getUnit() >= qty) {
-//                cartProduct.setPname(currentProduct.getPname());
-//                cartProduct.setUnit(qty);
-//                cartProduct.setPrice(currentProduct.getPrice());
-//                cartProduct.setDiscount(currentProduct.getDiscount());
-//                currentProduct.setUnit(currentProduct.getUnit() - qty);
-//                body.setProduct(cartProduct);
-//                body.setTotalPrice(qty * (cartProduct.getPrice()) * (100 - (cartProduct.getDiscount())) * 0.01);
-//                updateProduct(gstId, pname, currentProduct);
-//
-//                // Convert Body object to JSON and send via RestTemplate
-//                HttpHeaders headers = new HttpHeaders();
-//                headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
-//                HttpEntity<Body> request = new HttpEntity<>(body, headers);
-//                restTemplate.exchange("http://localhost:8091/api/cart/add", HttpMethod.POST, request, String.class);
-//
-//                st = true;
-//                break;
-//            }
-//        }
-//        if (!st) {
-//            throw new QuantityLessInStore("Quantity shortage");
-//        }
-//    }
-//    @Override
-//    public void addProductToCart(int cartId, String productName, double quantity, Long productId) throws ProductNotFound {
-//        Product product = productRepo.findByPnameAndId(productName, productId)
-//            .orElseThrow(() -> new ProductNotFound("Product not found"));
-//
-//        // Assuming the quantity is to be added or validated here
-//        // You might need to handle quantity validation based on your logic
-//
-//        String url = CART_SERVICE_URL + cartId;
-//        restTemplate.postForObject(url, product, Cart.class);
-//    }
-
-
-//    @Override
-//    public void delProductToCart(int gstId, String pname, double qty) throws StoreNotFoundException, ProductNotFound {
-//        Store existingStore = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("Store not found"));
-//        List<Product> products = existingStore.getProducts();
-//        Body body = new Body();
-//        body.setGstId(gstId);
-//        body.setStorename(existingStore.getStorename());
-//        Product cartProduct = new Product();
-//        boolean st = false;
-//
-//        for (Product currentProduct : products) {
-//            if (currentProduct.getPname().equals(pname) && currentProduct.getUnit() >= qty) {
-//                cartProduct.setPname(currentProduct.getPname());
-//                cartProduct.setUnit(qty);
-//                cartProduct.setPrice(currentProduct.getPrice());
-//                cartProduct.setDiscount(currentProduct.getDiscount());
-//
-//                currentProduct.setUnit(currentProduct.getUnit() + qty);
-//                body.setProduct(cartProduct);
-//                body.setTotalPrice(qty * (cartProduct.getPrice()) * (100 - (cartProduct.getDiscount())) * 0.01);
-//                updateProduct(gstId, pname, currentProduct);
-//
-//                // Convert Body object to JSON and send via RestTemplate
-//                HttpHeaders headers = new HttpHeaders();
-//                headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
-//                HttpEntity<Body> request = new HttpEntity<>(body, headers);
-//                restTemplate.exchange("http://localhost:8091/api/cart/delete", HttpMethod.POST, request, String.class);
-//
-//                st = true;
-//                break;
-//            }
-//        }
-//        if (!st) {
-//            throw new ProductNotFound("Product not found in cart");
-//        }
-//    }
-//
-//	
     
- // In StoreService.java
+    
+    public List<Store> showBestDiscountDist(String pname) throws ProductNotFoundException {
+        double bestDiscount = 0.0;
+        List<Store> returnStores = new ArrayList<>();
+        boolean productFound = false;
+
+        List<Store> existingStores = srepo.findAll();
+
+        for (Store store : existingStores) {
+            List<Product> products = store.getProducts();
+            for (Product product : products) {
+                if (product.getPname() != null && product.getPname().toLowerCase().contains(pname.toLowerCase())) {
+                    productFound = true;
+                    if (product.getDiscount() > bestDiscount) {
+                        bestDiscount = product.getDiscount();
+                        returnStores.clear();
+                        Store storeWithBestDiscount = new Store();
+                        storeWithBestDiscount.setGstId(store.getGstId());
+                        storeWithBestDiscount.setStorename(store.getStorename());
+                        storeWithBestDiscount.setProducts(Collections.singletonList(product));
+                        storeWithBestDiscount.setStoreAddress(store.getStoreAddress()); // Set store address
+                        returnStores.add(storeWithBestDiscount);
+                    } else if (product.getDiscount() == bestDiscount) {
+                        boolean storeAlreadyAdded = returnStores.stream()
+                                .anyMatch(s -> s.getGstId() == store.getGstId());
+                        if (!storeAlreadyAdded) {
+                            Store storeWithBestDiscount = new Store();
+                            storeWithBestDiscount.setGstId(store.getGstId());
+                            storeWithBestDiscount.setStorename(store.getStorename());
+                            storeWithBestDiscount.setProducts(Collections.singletonList(product));
+                            storeWithBestDiscount.setStoreAddress(store.getStoreAddress()); // Set store address
+                            returnStores.add(storeWithBestDiscount);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!productFound) {
+            throw new ProductNotFoundException("Product with name '" + pname + "' not found");
+        }
+
+        // Sort the returnStores list by distance
+        returnStores.sort(Comparator.comparingDouble(store -> {
+            StoreDistance storeDistance = storeDistanceRepository.findByStoreAddress(store.getStoreAddress());
+            return storeDistance != null ? storeDistance.getDistance() : Double.MAX_VALUE;
+        }));
+
+        return returnStores;
+    }
+
+    public List<String> getProductSuggestions(String query) {
+        List<String> suggestions = new ArrayList<>();
+        List<Store> existingStores = srepo.findAll();
+
+        for (Store store : existingStores) {
+            List<Product> products = store.getProducts();
+            for (Product product : products) {
+                if (product.getPname() != null && product.getPname().toLowerCase().contains(query.toLowerCase())) {
+                    if (!suggestions.contains(product.getPname())) {
+                        suggestions.add(product.getPname());
+                    }
+                }
+            }
+        }
+
+        return suggestions;
+    }
 
     public Product getProductByGstAndProductId(int gstId, Long productId) throws StoreNotFoundException, ProductNotFoundException {
-        Store existingStore = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("Store not found"));
-        List<Product> products = existingStore.getProducts();
-        
-        return products.stream()
+        Store store = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("Store not found"));
+        return store.getProducts().stream()
             .filter(product -> product.getId().equals(productId))
             .findFirst()
             .orElseThrow(() -> new ProductNotFoundException("Product not found in the store"));
     }
-
- // In StoreService.java
 
     public void updateProductQuantity(int gstId, Long productId, double quantity) throws StoreNotFoundException, ProductNotFoundException, QuantityLessInStore {
-        Store existingStore = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("Store not found"));
-        List<Product> products = existingStore.getProducts();
-        
-        Product productToUpdate = products.stream()
-            .filter(product -> product.getId().equals(productId))
+        Store store = srepo.findByGstId(gstId).orElseThrow(() -> new StoreNotFoundException("Store not found"));
+        Product product = store.getProducts().stream()
+            .filter(p -> p.getId().equals(productId))
             .findFirst()
             .orElseThrow(() -> new ProductNotFoundException("Product not found in the store"));
-        
-        if (productToUpdate.getUnit() < quantity) {
-            throw new QuantityLessInStore("Not enough quantity in store");
+
+        if (product.getUnit() < quantity) {
+            throw new QuantityLessInStore("Insufficient quantity in store");
         }
-        
-        productToUpdate.setUnit(productToUpdate.getUnit() - quantity);
-        srepo.save(existingStore);
+
+        product.setUnit(product.getUnit() - quantity);
+        store.setProducts(store.getProducts());
+        srepo.save(store);
     }
 
+
     
+//    public double getDistanceForAddress(String address) {
+//        StoreDistance storeDistance = storeDistanceRepository.findByStoreAddress(address);
+//        return storeDistance != null ? storeDistance.getDistance() : -1; // Return -1 if not found
+//    }
     
-    
-    
-    
-    
-    
+//    public List<Store> getStoresByDistanceAndDiscount(String address, String productName) throws ProductNotFoundException {
+//        // Retrieve the target distance for the given address
+//        double targetDistance = getDistanceForAddress(address);
+//        if (targetDistance == -1) {
+//            return Collections.emptyList(); // No matching address found
+//        }
+//
+//        // Fetch the list of stores with the best discount for the given product
+//        List<Store> bestDiscountStores = showBestDiscount(productName);
+//        
+//        // Filter and sort the stores based on distance
+//        return bestDiscountStores.stream()
+//                .filter(store -> store.getStoreDistance() != null 
+//                        && getDistanceFromStoreDistance(store.getStoreDistance()) <= targetDistance)
+//                .sorted(Comparator.comparingDouble(store -> getDistanceFromStoreDistance(store.getStoreDistance())))
+//                .collect(Collectors.toList());
+//    }
+
+
 }

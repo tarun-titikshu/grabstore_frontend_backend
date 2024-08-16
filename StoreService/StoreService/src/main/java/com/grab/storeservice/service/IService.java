@@ -33,7 +33,7 @@ public interface IService {
     public List<Product> showProducts(int gstId) throws StoreNotFoundException;
     //public void addProductToCart(Product product)
 
-    public Store showBestDiscount(String pname) throws ProductNotFoundException;
+    public List<Store> showBestDiscount(String pname) throws ProductNotFoundException;
 //    public void addProductToCart(int cartId, String productName, double quantity,Long productId)throws ProductNotFound;
 //    		throws StoreNotFoundException, ProductNotFound, QuantityLessInStore;
 
