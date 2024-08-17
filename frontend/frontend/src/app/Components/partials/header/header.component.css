@@ -1,0 +1,106 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: linear-gradient(270deg, #5f9ea0, #DAB7A1); /* Background gradient */
+}
+
+/* Style for the navbar lists */
+.navbar-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Navbar items */
+.navbar-item {
+  margin: 0 15px;
+}
+
+/* Navbar buttons */
+.navbar-button {
+  position: relative;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  padding-bottom: 5px;
+  transition: color 0.3s ease;
+  outline: none;
+}
+
+/* Underline effect for the buttons */
+.navbar-button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: #ffffff; /* White underline color */
+  transition: width 0.3s ease;
+}
+
+/* Hover effect for the underline */
+.navbar-button:hover::after {
+  width: 100%;
+}
+
+/* Hover effect for the button text */
+.navbar-button:hover {
+  color: #ffffff;
+}
+
+
+/* Logo Button */
+.logo-btn img {
+  width: 100px;
+  height: auto;
+}
+
+/* Sign In Button */
+.navbar-list-right .navbar-button {
+  /* background: white;
+  color: #000;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: bold; */
+  position: relative;
+  overflow: hidden;
+  height: 3rem;
+  padding: 0 1rem;
+  border-radius: 1.5rem;
+  background: #DAB7A1;
+  background-size: 400%;
+  color: #292929;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-list-right .navbar-button:hover::before {
+  transform: scaleX(1);
+}
+
+/* Additional Styling */
+.navbar-button-content {
+  position: relative;
+  z-index: 1;
+}
+.navbar-button::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  width: 100%;
+  height: inherit;
+  border-radius: inherit;
+  background:white
+  ;
+  transition: all 0.475s;
+}

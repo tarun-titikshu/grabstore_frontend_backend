@@ -1,0 +1,102 @@
+<app-header></app-header>
+<div class="main-container">
+<div class="container">
+  <div class="management-sections">
+    <div class="store-management">
+      <h2>Store Management</h2>
+      <div>
+        <label for="storeId"></label>
+        <input type="number"  placeholder="GST ID" id="storeId" [(ngModel)]="selectedStore.gstId">
+      </div>
+      <div>
+        <label for="storeName"></label>
+        <input type="text" placeholder="Store Name" id="storeName" [(ngModel)]="selectedStore.storename">
+      </div>
+      <div class="store-btns">
+        <button (click)="addStore()">
+          <span class="button-content">Add Store</span></button>
+        
+        <button (click)="updateStore()">
+          <span class="button-content">Update Store</span></button>
+        
+      </div>
+    </div>
+    
+    <div class="product-management">
+      <h3>Product Management</h3>
+      <div>
+        <label for="productName"></label>
+        <input type="text" placeholder="Product Name" id="productName" #productName>
+      </div>
+      <div>
+        <label for="productPrice"></label>
+        <input type="number" placeholder="Price" id="productPrice" #productPrice>
+      </div>
+      <div>
+        <label for="productUnit"></label>
+        <input type="number" placeholder="Unit" id="productUnit" #productUnit>
+      </div>
+      <div>
+        <label for="productDiscount"></label>
+        <input type="number" placeholder="Discount" id="productDiscount" #productDiscount>
+      </div>
+      <div class="btns">
+        <button (click)="addProductToStore(productName.value, productPrice.value, productUnit.value, productDiscount.value)"><span class="button-content">Add Product</span></button>
+        <button (click)="updateProduct(productName.value, productPrice.value, productUnit.value, productDiscount.value)"><span class="button-content">Update Product</span></button>
+        <button (click)="deleteProductFromStore(productName.value)"><span class="button-content">Delete Product</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="stores-list">
+    <h3>Stores List</h3>
+    <ul>
+      <li *ngFor="let store of stores" class="store-item">
+        {{ store.storename }} (GST ID: {{ store.gstId }})
+        <button (click)="deleteStore(store.gstId)">Delete</button>
+        <button (click)="showProducts(store.gstId)">Show Products</button>
+        <div *ngIf="store.gstId === selectedStore.gstId">
+          <ul class="product-list">
+            <li *ngFor="let product of selectedStoreProducts" class="product-item">
+              <div class="product-field">
+                <label>Product Name:</label>
+                <span>{{ product.pname }}</span>
+              </div>
+              <div class="product-field">
+                <label>Price:</label>
+                <span>{{ product.price | currency }}</span>
+              </div>
+              <div class="product-field">
+                <label>Unit:</label>
+                <span>{{ product.unit }}</span>
+              </div>
+              <div class="product-field">
+                <label>Discount:</label>
+                <span>{{ product.discount }}%</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div> -->
+
+  <!-- <div>
+    <h3>Best Discount</h3>
+    <div>
+      <label for="discountProductName">Product Name:</label>
+      <input type="text" id="discountProductName" #discountProductName>
+      <button (click)="showBestDiscount(discountProductName.value)">Show Best Discount Store</button>
+    </div>
+    <div *ngIf="bestDiscountStore" class="best-discount">
+      <h4>Store with Best Discount:</h4>
+      <p>{{ bestDiscountStore.storename }} (GST ID: {{ bestDiscountStore.gstId }})</p>
+      <ul>
+        <li *ngFor="let product of bestDiscountStore.products">
+          {{ product.pname }} - {{ product.price }} - {{ product.unit }} - {{ product.discount }}
+        </li>
+      </ul>
+    </div>
+  </div> -->
+</div>
+</div>

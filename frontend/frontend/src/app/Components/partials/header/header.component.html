@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <ul class="navbar-list navbar-list-left">
+    <li class="navbar-item">
+      <button class="navbar-button logo-btn" (click)="navigateTo('/home')"><img src="https://i.imgur.com/5MvRyWl.png" alt="BrandLogo" style="width: 200px;"></button>
+    </li>
+    <li class="navbar-item">
+      <button class="navbar-button" (click)="navigateTo('/aboutus')">About Us</button>
+    </li>
+    <li class="navbar-item">
+      <button class="navbar-button" (click)="navigateTo('/store')">Store</button>
+    </li>
+    <li class="navbar-item">
+      <button class="navbar-button" (click)="navigateTo('/cart')">Cart</button>
+    </li>
+  </ul>
+  <ul class="navbar-list navbar-list-right">
+    <li class="navbar-item">
+      <button class="navbar-button" (click)="navigateTo('/login')">
+        <span class="navbar-button-content">Log out</span></button>
+    </li>
+    <!-- <li class="navbar-item">
+      <button class="navbar-button" (click)="navigateTo('/register')">Register</button>
+    </li> -->
+  </ul>
+</nav>

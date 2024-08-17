@@ -1,0 +1,112 @@
+
+.main-container{
+  background: linear-gradient(270deg, #5f9ea0, #DAB7A1); 
+  height: 100vh;
+}
+.container {
+  color: white;
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 20px;
+  background: linear-gradient(270deg, #5f9ea0, #DAB7A1); 
+  border-radius: 15px;
+  /* box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); */
+  
+}
+
+.management-sections {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+ .store-management {
+  color: white;
+ }
+.store-management, .product-management {
+  background:transparent;
+  padding: 30px;
+  border-radius: 15px;
+  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
+  flex: 1;
+  min-width: 280px;
+  margin-top: 10px;
+}
+
+.store-management h2, .product-management h3 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.store-management label, .product-management label {
+  display: block;
+  font-size: 1.2em;
+  color: #fafafa;
+  margin-bottom: 10px;
+}
+
+.store-management input, .product-management input {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid #ffffff; /* Light border color */
+  outline: none;
+  font-size: 16px;
+  transition: border 0.3s ease;
+  width: 250px;
+  /* background:  linear-gradient(to left, #5f9ea0 30%, #DAB7A1 70% );  */
+  background: transparent;
+  color: #ffffff; /* White text color */
+  
+}
+
+.store-management input::placeholder, .product-management input::placeholder {
+  color: #ffffff;
+  opacity: 1;
+}
+
+/* form button styling */
+
+.store-btns, .btns {
+  display: flex;
+  justify-content: left;
+  gap: 40px; 
+  margin-top: 40px;
+}
+
+.store-btns button, .btns button {
+  position: relative;
+  overflow: hidden;
+  height: 3rem;
+  padding: 0 1rem;
+  border-radius: 1.5rem;
+  background: #DAB7A1;
+  background-size: 400%;
+  color: #292929;
+  border: none;
+  cursor: pointer;
+}
+
+.store-btns button:hover::before, .btns button:hover::before {
+  transform: scaleX(1);
+}
+
+.store-btns .button-content, .btns .button-content{
+  position: relative;
+  z-index: 1;
+  color: #292929;
+}
+.store-btns button::before, .btns button::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  width: 100%;
+  height: inherit;
+  border-radius: inherit;
+  background:white;
+  transition: all 0.475s;
+  color: #292929;
+}

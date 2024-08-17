@@ -1,0 +1,12 @@
+<div class="custom-dialog-overlay" (click)="onClose()">
+    <div class="custom-dialog-content" (click)="$event.stopPropagation()">
+      <h1 class="custom-dialog-title">{{ data.title }}</h1>
+      <div class="custom-dialog-body">
+        <p>{{ data.message }}</p>
+      </div>
+      <div class="custom-dialog-footer">
+        <button class="custom-dialog-close-btn" (click)="onClose()">OK</button>
+      </div>
+    </div>
+  </div>
+  

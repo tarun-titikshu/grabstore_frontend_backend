@@ -1,0 +1,11 @@
+{
+  "product": [
+    {
+      "id": 1,
+      "pname": "milk",
+      "price": 20,
+      "unit": 5,
+      "discount": 3
+    }
+  ]
+}
