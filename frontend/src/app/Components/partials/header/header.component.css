@@ -1,0 +1,100 @@
+/* Navbar Container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #232f3e;
+  padding: 10px 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar List */
+.navbar-list {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.navbar-list-right{
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Navbar Items */
+.navbar-item {
+  margin-left: 15px;
+}
+
+.navbar-list-left .navbar-item:first-child {
+  margin-left: 0;
+  
+}
+
+.navbar-list-right .navbar-item:first-child {
+  margin-right: 0;
+}
+
+/* Navbar Buttons */
+.navbar-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 15px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-button:hover {
+  background-color: #37475a;
+}
+
+.navbar-button:focus {
+  outline: none;
+}
+
+.logo-btn {
+  padding: 0;
+}
+
+.logo-btn img {
+  width: 150px;
+  height: auto;
+}
+
+/* Navbar Button Content */
+.navbar-button-content {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-list {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-item {
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+
+  .navbar-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .navbar-button {
+    width: 100%;
+    text-align: left;
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "product": [
+    {
+      "id": 3,
+      "pname": "Smartphone",
+      "price": 299.99,
+      "unit": 1,
+      "discount": 10
+    }
+  ]
+}

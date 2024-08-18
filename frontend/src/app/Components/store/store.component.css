@@ -1,0 +1,111 @@
+/* Main Container */
+.main-container {
+  background-color: #f5f5f5;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* Management Sections */
+.management-sections {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Store Management & Product Management */
+.store-management,
+.product-management {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+/* Headings */
+.store-management h2,
+.product-management h3 {
+  font-size: 24px;
+  color: #232f3e;
+  margin-bottom: 20px;
+}
+
+/* Form Fields */
+.store-management div,
+.product-management div {
+  margin-bottom: 15px;
+}
+
+.store-management input,
+.product-management input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Buttons */
+.store-btns,
+.btns {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.store-btns button,
+.btns button {
+  background-color: #f0c14b;
+  color: #111;
+  border: 1px solid #a88734;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+.store-btns button:hover,
+.btns button:hover {
+  background-color: #ddb347;
+}
+
+.store-btns .button-content,
+.btns .button-content {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .management-sections {
+    flex-direction: column;
+  }
+
+  .store-management,
+  .product-management {
+    margin-bottom: 20px;
+  }
+
+  .store-btns,
+  .btns {
+    flex-direction: column;
+  }
+
+  .store-btns button,
+  .btns button {
+    width: 100%;
+  }
+}

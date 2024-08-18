@@ -1,0 +1,327 @@
+/* General Container Styling */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Best Discount Section */
+.best-discount-section {
+  margin-bottom: 40px;
+}
+
+.best-discount-section h3 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 20px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+.suggestions-dropdown {
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Rounded corners */
+  width: 50%; /* Full width of the input */
+  max-height: 300px; /* Limit the height of the dropdown */
+  overflow-y: auto; /* Enable scrolling if there are too many suggestions */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+  z-index: 1000; /* Ensure the dropdown is above other elements */
+  margin-top: 5px; /* Space between input and dropdown */
+}
+
+.suggestions-dropdown ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestions-dropdown li {
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px; /* Slightly larger font for readability */
+  color: #333; /* Dark text color for readability */
+}
+
+.suggestions-dropdown li:hover {
+  background-color: #f0f0f0; /* Light gray background on hover */
+}
+
+.suggestions-dropdown li:active {
+  background-color: #e0e0e0; /* Slightly darker gray on click */
+}
+
+.suggestions-dropdown li:not(:last-child) {
+  border-bottom: 1px solid #eee; /* Divider between items */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .suggestions-dropdown {
+    width: 100%;
+    max-height: 250px; /* Slightly smaller max-height on mobile */
+  }
+
+  .suggestions-dropdown li {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+}
+
+
+.search-btn {
+  background-color: #f0c14b;
+  border: 1px solid #a88734;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #e2b33c;
+}
+
+.best-discount h4 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Store Card Styling */
+.store-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.store-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.store-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.store-info {
+  font-size: 16px;
+  color: #555;
+}
+
+.store-info h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 5px;
+}
+
+.store-card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.store-card-footer button {
+  background-color: #0073bb;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.store-card-footer button:hover {
+  background-color: #005999;
+}
+
+/* Product List and Cards */
+.product-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-card {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.product-card:hover {
+  background-color: #e7e7e7;
+}
+
+.product-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-info {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.product-info h4 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+
+.product-info p {
+  margin: 5px 0;
+}
+
+.product-card button {
+  background-color: #f0c14b;
+  border: 1px solid #a88734;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.product-card button:hover {
+  background-color: #e2b33c;
+}
+
+/* Store List Section */
+.container {
+  margin-bottom: 40px;
+}
+
+.container h2 {
+  font-size: 26px;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 20px;
+}
+
+.stores-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Footer */
+footer {
+  background-color: #232f3e;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  font-size: 14px;
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+
+/* Detailed Store Card Section */
+.detailed-store-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detailed-store-card h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.detailed-store-card p {
+  font-size: 16px;
+  color: #faf8f8;
+  margin-bottom: 10px;
+}
+
+/* Product List within Detailed Store Card */
+.detailed-store-card .product-list {
+  margin-top: 20px;
+}
+
+.detailed-store-card .product-card {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.detailed-store-card .product-card:hover {
+  background-color: #e7e7e7;
+}
+
+.detailed-store-card .product-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detailed-store-card .product-info {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.detailed-store-card .product-info h4 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #f5f5f5;
+  margin-bottom: 5px;
+}
+
+.detailed-store-card .product-info p {
+  margin: 5px 0;
+}
+
+.detailed-store-card .product-card button {
+  background-color: #f0c14b;
+  border: 1px solid #a88734;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.detailed-store-card .product-card button:hover {
+  background-color: #e2b33c;
+}
