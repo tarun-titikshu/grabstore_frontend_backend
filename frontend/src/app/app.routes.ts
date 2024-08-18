@@ -10,27 +10,32 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { StoreManagerGuard } from './guards/store-manager-guard.guard';
 import { CustomerGuard } from './guards/customer-guard.guard';
-
-
+import { ChangePasswordComponent } from './Components/change-password/change-password.component';
+import { StoreListComponent } from './Components/store-list/store-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  {path:'aboutus',component:AboutusComponent},
-  {path:'login',component:LoginComponent},
-  {path:'register',component:RegistrationComponent},  // Default route
+  { path: 'aboutus', component: AboutusComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegistrationComponent }, // Default route
   { path: 'home', component: HomeComponent },
   // { path: 'store', component: StoreComponent },
   // { path: 'cart', component: CartComponent },
 
-  { path: 'store', component: StoreComponent, canActivate: [StoreManagerGuard] },
+  {
+    path: 'store',
+    component: StoreComponent,
+    canActivate: [StoreManagerGuard],
+  },
+  { path: 'store-list', component: StoreListComponent },
   { path: 'cart', component: CartComponent, canActivate: [CustomerGuard] },
-  { path: '**', redirectTo: '/home' }  // Fallback route
+  // { path: 'change-password', component: ChangePasswordComponent },
+  { path: 'change-password', component: ChangePasswordComponent },
+  // { path: '', redirectTo: '/home' }  // Fallback route
 ];
 
-
 @NgModule({
-  
   imports: [RouterModule.forRoot(routes), MatDialogModule, MatButtonModule],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

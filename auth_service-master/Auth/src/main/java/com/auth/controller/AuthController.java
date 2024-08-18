@@ -2,6 +2,7 @@ package com.auth.controller;
 
 
 import com.auth.dto.LoginRequest;
+import com.auth.dto.ResetPasswordRequest;
 import com.auth.dto.SignupRequest;
 import com.auth.dto.UserDTO;
 import com.auth.service.AuthService;
@@ -38,6 +39,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) {
         try {
+
             UserDTO userDTO = authService.registerUser(signupRequest);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
 
@@ -45,4 +47,15 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
+        try {
+            UserDTO userDTO = authService.resetPassword(resetPasswordRequest);
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
 }

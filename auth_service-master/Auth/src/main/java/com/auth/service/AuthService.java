@@ -3,6 +3,7 @@ package com.auth.service;
 import java.util.Optional;
 
 
+import com.auth.dto.ResetPasswordRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,9 @@ public interface AuthService {
 	
 	public UserDTO registerUser(SignupRequest signupRequest) throws Exception;
 	public UserDTO authenticateUser(LoginRequest loginrequest) throws Exception;
+	public UserDTO resetPassword(ResetPasswordRequest resetPasswordRequest) throws Exception;
 
 //	public Object loadUserByUsername(String email) {
-//		// TODO Auto-generated method stub
 //		return email;
 //	}
 	

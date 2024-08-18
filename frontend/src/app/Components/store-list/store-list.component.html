@@ -1,0 +1,20 @@
+<div class="main-container">
+    <div *ngIf="showDetailedStore && selectedStore" class="detailed-store-card">
+        <h2>{{ selectedStore.storename }}</h2>
+        <p>GST ID: {{ selectedStore.gstId }}</p>
+        <p>Address: {{ selectedStore.storeAddress }}</p>
+        <div class="product-list">
+          <div *ngFor="let product of selectedStoreProducts" class="product-card">
+            <div class="product-card-header">
+              <div class="product-info">
+                <h4>{{ product.pname }}</h4>
+                <p>Price: {{ product.price | currency }}</p>
+                <p>Unit: {{ product.unit }}</p>
+                <p>Discount: {{ product.discount }}%</p>
+              </div>
+              <button (click)="selectProduct(product)">Select</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

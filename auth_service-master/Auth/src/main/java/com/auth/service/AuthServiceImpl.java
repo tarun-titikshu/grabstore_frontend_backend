@@ -1,6 +1,7 @@
 package com.auth.service;
 
 import com.auth.dto.LoginRequest;
+import com.auth.dto.ResetPasswordRequest;
 import com.auth.dto.SignupRequest;
 import com.auth.dto.UserDTO;
 import com.auth.model.User;
@@ -41,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
 				return new UserDTO(user.getId(),user.getEmail(),user.getRole());
 			}
 		}catch (Exception e){
-			
+
 			throw new Exception(e.getMessage());
 		}
 
@@ -68,9 +69,31 @@ public class AuthServiceImpl implements AuthService {
 		}
 	}
 
+	@Override
+	public UserDTO resetPassword(ResetPasswordRequest resetPasswordRequest) throws Exception {
+		try {
+			Optional<User> userOptional = userRepo.findByEmail(resetPasswordRequest.getEmail());
+			if (userOptional.isEmpty()) {
+				throw new Exception("User does not exist");
+			}
 
-	
-	
-	
+			User user = userOptional.get();
+			boolean matches = passwordEncoder.matches(resetPasswordRequest.getOldPassword(), user.getPassword());
+			if (!matches) {
+				throw new Exception("Old password is incorrect");
+			}
+
+			user.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
+			userRepo.save(user);
+
+			return new UserDTO(user.getId(), user.getEmail(), user.getRole());
+
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+	}
+
+
+
 
 }

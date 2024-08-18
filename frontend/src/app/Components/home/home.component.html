@@ -6,7 +6,8 @@
     <h3>Find Store with Best Discount</h3>
     <div class="search-container">
       <label for="bestDiscountProductName"></label>
-      <input class="search-bar" type="text" id="bestDiscountProductName" placeholder="Product name" [(ngModel)]="searchTerm" (input)="getSuggestions()" #bestDiscountProductName   >
+      <input class="search-bar" type="text" id="bestDiscountProductName" placeholder="Product name"
+        [(ngModel)]="searchTerm" (input)="getSuggestions()" #bestDiscountProductName>
       <button class="search-btn" (click)="showBestDiscount(searchTerm)">
         <span class="search-btn-content">Show Best Discount Store</span>
       </button>
@@ -29,9 +30,9 @@
           </div> -->
           <div class="store-info">
             <h3>{{ store.storename }}</h3>
-    <p>GST ID: {{ store.gstId }}</p>
-    <p>Address: {{ store.storeAddress }}</p>
-    <p>Distance: {{ getDistanceByStoreName(store.storename, store.gstId) }} km</p>
+            <p>GST ID: {{ store.gstId }}</p>
+            <p>Address: {{ store.storeAddress }}</p>
+            <p>Distance: {{ getDistanceByStoreName(store.storename, store.gstId) }} km</p>
             <!-- <p>Distance: {{ store.distance }}</p> -->
           </div>
         </div>
@@ -79,7 +80,8 @@
             <span class="button-content">Show More</span>
           </button>
         </div>
-        <div *ngIf="store.gstId === selectedStore.gstId" class="product-list">
+
+        <!-- <div *ngIf="store.gstId === selectedStore.gstId" class="product-list">
           <div *ngFor="let product of selectedStoreProducts" class="product-card" style="background-color: #373737;">
             <div class="product-card-header">
               <div class="product-info">
@@ -91,13 +93,13 @@
               <button (click)="selectProduct(product)">Select</button>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 
-   <!-- Detailed Store Card Section -->
-   <div *ngIf="showDetailedStore && selectedStore" class="detailed-store-card">
+  <!-- Detailed Store Card Section -->
+  <div *ngIf="showDetailedStore && selectedStore" class="detailed-store-card">
     <h2>{{ selectedStore.storename }}</h2>
     <p>GST ID: {{ selectedStore.gstId }}</p>
     <p>Address: {{ selectedStore.storeAddress }}</p>
@@ -117,6 +119,6 @@
   </div>
 
 
-  
+
 </div>
 <app-footer></app-footer>

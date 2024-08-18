@@ -251,6 +251,7 @@ export class HomeComponent implements OnInit {
       this.selectedStoreProducts = products;
       this.selectedStore = store;
       this.showDetailedStore = true; // Show detailed store card
+      // this.router.navigate(['/store-list']);
     });
   }
 }

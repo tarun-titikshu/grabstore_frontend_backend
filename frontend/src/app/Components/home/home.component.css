@@ -263,13 +263,13 @@ footer a:hover {
 .detailed-store-card h2 {
   font-size: 24px;
   font-weight: 600;
-  color: #ffffff;
+  color: #000000;
   margin-bottom: 20px;
 }
 
 .detailed-store-card p {
   font-size: 16px;
-  color: #faf8f8;
+  color: #525252;
   margin-bottom: 10px;
 }
 
@@ -305,7 +305,7 @@ footer a:hover {
 .detailed-store-card .product-info h4 {
   font-size: 18px;
   font-weight: 500;
-  color: #f5f5f5;
+  color: #000000;
   margin-bottom: 5px;
 }
 

@@ -3,11 +3,12 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { FooterComponent } from '../partials/footer/footer.component';
 
 @Component({
-  selector: 'app-registration',
+  selector: 'app-registration', 
   standalone: true,
-  imports: [RouterModule, CommonModule, HttpClientModule, ReactiveFormsModule],
+  imports: [RouterModule, CommonModule, HttpClientModule, ReactiveFormsModule,FooterComponent],
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
 })
@@ -15,6 +16,7 @@ export class RegistrationComponent {
   myForm: FormGroup;
   isBlank: boolean = false;
   showPassword: boolean = false;
+  visibility: string = 'assets/password-show.png';
 
   constructor(private http: HttpClient, private router: Router) { 
     this.myForm = new FormGroup({
@@ -41,5 +43,6 @@ export class RegistrationComponent {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+    this.visibility = this.showPassword ? 'assets/password-hide.png' : 'assets/password-show.png';
   }
 }
