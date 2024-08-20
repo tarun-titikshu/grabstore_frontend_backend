@@ -1,7 +1,7 @@
 <!-- Best Discount Section -->
 <app-header></app-header>
+<app-carousel></app-carousel>
 <div class="main-container" style="background: white">
-
   <div class="best-discount-section">
     <h3>Find Store with Best Discount</h3>
     <div class="search-container">
@@ -43,8 +43,8 @@
           <ul>
             <li *ngFor="let product of store.products" class="product-card">
               <div class="product-card-header">
-                <div class="product-info">
-                  <h4>{{ product.pname }}</h4>
+                <div class="product-info" style="color: black;">
+                  <h4 style="color: black;">{{ product.pname }}</h4>
                   <p>Price: {{ product.price | currency }}</p>
                   <p>Unit: {{ product.unit }}</p>
                   <p>Discount: {{ product.discount }}%</p>
@@ -93,13 +93,13 @@
               <button (click)="selectProduct(product)">Select</button>
             </div>
           </div>
-        </div> -->
+        </div> --> 
       </div>
     </div>
   </div>
 
   <!-- Detailed Store Card Section -->
-  <div *ngIf="showDetailedStore && selectedStore" class="detailed-store-card">
+  <div *ngIf="showDetailedStore && selectedStore" class="detailed-store-card" id="storedetails">
     <h2>{{ selectedStore.storename }}</h2>
     <p>GST ID: {{ selectedStore.gstId }}</p>
     <p>Address: {{ selectedStore.storeAddress }}</p>

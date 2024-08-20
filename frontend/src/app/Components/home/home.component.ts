@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit,ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '../../Models/Store';
 import { Product } from '../../Models/Product';
@@ -13,17 +13,19 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomDialogComponent } from '../../custom-dialog/custom-dialog.component';
 import { StoreWithDistance } from '../../Models/StoreWithDistance';
+import { CarouselComponent } from "../carousel/carousel.component";
 //import { StoreWithDistance } from '../../Models/StoreWithDistance';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, StoreComponent, CartComponent, HeaderComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, StoreComponent, CartComponent, HeaderComponent, FooterComponent, CarouselComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
   eRef: any;
+  @ViewChild('storedetails', { static: false }) storedetails!: ElementRef;
   getRandomImage(): string {
     const randomIndex = Math.floor(Math.random() * this.storeImages.length);
     return this.storeImages[randomIndex];
@@ -42,7 +44,7 @@ export class HomeComponent implements OnInit {
 
   stores: Store[] = [];
   // stores: Store[] = [];
-  storeWithDistances: StoreWithDistance[] = [];
+  storeWithDistances: StoreWithDistance[] = []; 
   filteredStores: Store[] = [];
   selectedStoreProducts: Product[] = [];
   searchTerm: string = '';
@@ -59,6 +61,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.loadStores();
   }
+
+  
 
   loadStores(): void {
     this.storeService.getAllStores().subscribe(stores => {
@@ -245,13 +249,22 @@ export class HomeComponent implements OnInit {
   //     this.selectedStore = this.filteredStores.find(store => store.gstId === gstId) || null;
   //   });
   // }
-
+  scrollToDetailedStore(){
+    if (this.storedetails) {
+      this.storedetails.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
   showMore(store: Store) {
     this.storeService.showProducts(store.gstId).subscribe((products: any[]) => {
       this.selectedStoreProducts = products;
       this.selectedStore = store;
       this.showDetailedStore = true; // Show detailed store card
       // this.router.navigate(['/store-list']);
+      setTimeout(() => {
+        this.scrollToDetailedStore();
+      }, 100);
     });
+
+
   }
 }

@@ -11,7 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { StoreManagerGuard } from './guards/store-manager-guard.guard';
 import { CustomerGuard } from './guards/customer-guard.guard';
 import { ChangePasswordComponent } from './Components/change-password/change-password.component';
-import { StoreListComponent } from './Components/store-list/store-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -27,7 +26,6 @@ export const routes: Routes = [
     component: StoreComponent,
     canActivate: [StoreManagerGuard],
   },
-  { path: 'store-list', component: StoreListComponent },
   { path: 'cart', component: CartComponent, canActivate: [CustomerGuard] },
   // { path: 'change-password', component: ChangePasswordComponent },
   { path: 'change-password', component: ChangePasswordComponent },

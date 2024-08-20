@@ -1,72 +1,75 @@
 /* cart.component.css */
-.main-container{
-  background: linear-gradient(270deg, #fc5c7d, #0b1f87);
-  
-  
-}
-.cart-container {
-  max-width: 800px;
-  
-  margin-top: 10px;
-  margin: 0 auto;
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  background-color: #f9f9f9;
   padding: 20px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.251), rgba(255, 255, 255, 0.041));
-  border-radius: 15px;
-  border-bottom: 1px solid white;
-  border-right: 1px solid white;
-  
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
-  color: #fff;
 }
 
-.cart-container h2 {
-  font-size: 2em;
-  font-weight: bold;
+.cart-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
   text-align: center;
+  color: #333;
   margin-bottom: 20px;
-  color: #ffffff;
 }
 
 .cart-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.1);
+  flex-direction: column;
   padding: 15px;
-  /* border-bottom: 1px solid white;
-  border-right: 1px solid white; */
-  border-radius: 10px;
-  margin-bottom: 10px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  border-bottom: 1px solid #ddd;
 }
 
-.cart-item:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+.cart-item:last-child {
+  border-bottom: none;
 }
 
 .cart-item p {
-  margin: 0;
-  font-size: 1.1em;
+  margin: 5px 0;
+  color: #555;
 }
 
 .cart-item button {
-  padding: 8px 15px;
-  font-size: 1em;
-  background-color: #ff6f61;
+  margin-top: 10px;
+  padding: 8px 12px;
   border: none;
-  border-radius: 5px;
-  color: #fff;
+  border-radius: 4px;
+  background-color: #ff9900;
+  color: white;
   cursor: pointer;
+  font-size: 14px;
   transition: background-color 0.3s;
 }
 
 .cart-item button:hover {
-  background-color: #ff4757;
+  background-color: #e58e00;
 }
 
-.empty-cart {
+#emptyCart {
   text-align: center;
-  font-size: 1.5em;
-  color: #f1f1f1;
+  color: #999;
+  margin-top: 50px;
+}
+
+@media (min-width: 600px) {
+  .cart-item {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cart-item p {
+    margin: 0 15px;
+  }
 }
